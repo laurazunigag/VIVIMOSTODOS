@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiCliente = axios.create({
-  baseURL: '/api',
+  baseURL: 'http://localhost:5000/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -19,18 +19,26 @@ apiCliente.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Interceptor para manejar errores de autenticación
 apiCliente.interceptors.response.use(
   (respuesta) => respuesta,
   (error) => {
     if (error.response && error.response.status === 401) {
-      localStorage.removeItem('token_salon');
-      localStorage.removeItem('usuario_salon');
-      window.location.href = '/login';
+      console.log("Token inválido o credenciales incorrectas");
     }
+
     return Promise.reject(error);
   }
 );
+// Interceptor para manejar errores de autenticación
+
+//VERSIÓN ANTERIOR
+    //if (error.response && error.response.status === 401) {
+   //   localStorage.removeItem('token_salon');
+   //   localStorage.removeItem('usuario_salon');
+    //  window.location.href = '/login';
+  //  }
+  //  return Promise.reject(error);
+
 
 // ==================== AUTENTICACIÓN ====================
 export const servicioAuth = {

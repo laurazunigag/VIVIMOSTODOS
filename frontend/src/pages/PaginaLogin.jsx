@@ -40,7 +40,7 @@ export default function PaginaLogin() {
         {/* Logo */}
         <div className="text-center mb-4">
           <div
-            className="d-inline-flex align-items-center justify-content-center rounded-3 bg-verde mb-3"
+            className="d-inline-flex align-items-center justify-content-center rounded-3 bg-blanco mb-3" //Verde
             style={{ width: 64, height: 64 }}
           >
             <i className="bi bi-building text-white fs-2"></i>
