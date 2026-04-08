@@ -1,0 +1,122 @@
+:root {
+  --azul-oscuro: #1E3A8A;
+  --verde: #a4a4a4;
+  --gris-claro: #e2e2e2;
+  --texto-oscuro: #1F2937;
+  --texto-gris: #6B7280;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background-color: var(--gris-claro);
+  color: var(--texto-oscuro);
+  margin: 0;
+}
+
+.bg-azul-oscuro {
+  background-color: var(--azul-oscuro) !important;
+}
+
+.bg-verde {
+  background-color: var(--verde) !important;
+}
+
+.text-azul-oscuro {
+  color: var(--azul-oscuro) !important;
+}
+
+.text-verde {
+  color: var(--verde) !important;
+}
+
+.btn-azul {
+  background-color: var(--azul-oscuro);
+  border-color: var(--azul-oscuro);
+  color: #fff;
+}
+
+.btn-azul:hover {
+  background-color: #1a3278;
+  border-color: #1a3278;
+  color: #fff;
+}
+
+.btn-verde {
+  background-color: var(--verde);
+  border-color: var(--verde);
+  color: #fff;
+}
+
+.btn-verde:hover {
+  background-color: #0ea572;
+  border-color: #0ea572;
+  color: #fff;
+}
+
+.sidebar {
+  min-height: 100vh;
+  width: 260px;
+  transition: transform 0.3s ease;
+}
+
+.sidebar .nav-link {
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  margin-bottom: 4px;
+  padding: 10px 16px;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.contenido-principal {
+  flex: 1;
+  min-height: 100vh;
+}
+
+.tarjeta-estadistica {
+  border: none;
+  border-radius: 12px;
+  transition: box-shadow 0.2s ease;
+}
+
+.tarjeta-estadistica:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.barra-disponibilidad {
+  height: 8px;
+  border-radius: 4px;
+  background-color: #e5e7eb;
+  overflow: hidden;
+}
+
+.barra-disponibilidad-relleno {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+@media (max-width: 991.98px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1050;
+    transform: translateX(-100%);
+  }
+
+  .sidebar.abierto {
+    transform: translateX(0);
+  }
+
+  .overlay-sidebar {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+  }
+}
