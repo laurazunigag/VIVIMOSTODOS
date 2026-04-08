@@ -1,0 +1,12 @@
+.barra-disponibilidad {
+  height: 8px;
+  border-radius: 4px;
+  background-color: #e5e7eb;
+  overflow: hidden;
+}
+
+.barra-disponibilidad-relleno {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}

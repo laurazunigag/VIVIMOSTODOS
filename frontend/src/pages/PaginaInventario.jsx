@@ -5,6 +5,7 @@ import ModalInventario from '../components/ModalInventario';
 import ModalPrestar from '../components/ModalPrestar';
 import ModalPrestamosActivos from '../components/ModalPrestamosActivos';
 import { servicioPrestamos } from '../services/servicioPrestamos';
+import './PaginaInventario.css';
 
 export default function PaginaInventario() {
   const { esAdmin, esSupervisor } = useAuth();
@@ -148,7 +149,7 @@ export default function PaginaInventario() {
                 <i className="bi bi-card-checklist"></i>
                 Préstamos Activos
               </button>
-              <button className="btn btn-verde d-flex align-items-center gap-2" onClick={abrirModalCrear}>
+              <button className="btn btn-nuevo-insumo d-flex align-items-center gap-2" onClick={abrirModalCrear}>
                 <i className="bi bi-plus-lg"></i>
                 Nuevo Insumo
               </button>

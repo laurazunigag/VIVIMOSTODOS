@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/ContextoAutenticacion';
+import './LayoutPrincipal.css';
 
 export default function LayoutPrincipal({ children }) {
   const { usuario, cerrarSesion, esAdmin } = useAuth();
@@ -28,7 +29,7 @@ export default function LayoutPrincipal({ children }) {
         {/* Logo */}
         <div className="p-3 border-bottom border-light border-opacity-10">
           <div className="d-flex align-items-center gap-2">
-            <i className="bi bi-building fs-4 text-verde"></i>
+            <i className="bi bi-building fs-4 text-logo-salon"></i>
             <div>
               <h6 className="mb-0 fw-bold">Salón Social</h6>
               <small className="text-white-50">Gestión Residencial</small>
@@ -64,7 +65,7 @@ export default function LayoutPrincipal({ children }) {
         <div className="p-3 border-top border-light border-opacity-10">
           <div className="d-flex align-items-center gap-2 mb-2">
             <div
-              className="rounded-circle bg-verde d-flex align-items-center justify-content-center fw-bold"
+              className="rounded-circle bg-circulo-perfil d-flex align-items-center justify-content-center fw-bold text-white"
               style={{ width: 36, height: 36, fontSize: 14 }}
             >
               {usuario?.nombreTitular?.charAt(0) || 'U'}

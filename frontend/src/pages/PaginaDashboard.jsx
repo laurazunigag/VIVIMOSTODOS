@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/ContextoAutenticacion';
 import { servicioUsuarios, servicioInventario } from '../services/servicioApi';
+import './PaginaDashboard.css';
 
 export default function PaginaDashboard() {
   const { usuario } = useAuth();
