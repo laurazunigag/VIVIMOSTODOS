@@ -15,10 +15,17 @@ const poolConexion = mysql.createPool({
 const verificarConexion = async () => {
   try {
     const conexion = await poolConexion.getConnection();
+<<<<<<< HEAD
+    console.log('Conexión a MySQL establecida correctamente');
+    conexion.release();
+  } catch (error) {
+    console.error('Error al conectar con MySQL:', error.message);
+=======
     console.log('✅ Conexión a MySQL establecida correctamente');
     conexion.release();
   } catch (error) {
     console.error('❌ Error al conectar con MySQL:', error.message);
+>>>>>>> 56c8acadeeaed21fba6a51dd9e109d2c25545bbf
     process.exit(1);
   }
 };

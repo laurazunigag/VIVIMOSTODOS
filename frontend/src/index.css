@@ -1,9 +1,22 @@
 :root {
   --azul-oscuro: #1E3A8A;
+<<<<<<< HEAD
   --verde: #10B981;
   --gris-claro: #F3F4F6;
   --texto-oscuro: #1F2937;
   --texto-gris: #6B7280;
+=======
+  --verde: #ca5959;
+  --gris-claro: #f1f1f4;
+  --texto-oscuro: #1F2937;
+  --texto-gris: #b7b7b7e5;
+
+  /* Colores individuales logo, boton y circulo */
+  --color-logo-salon: #ffffff;
+  --color-boton-nuevo: #1E3A8A;
+  --color-boton-nuevo-hover: #0ea572;
+  --color-circulo-perfil: #f50bb380;
+>>>>>>> 56c8acadeeaed21fba6a51dd9e109d2c25545bbf
 }
 
 body {
@@ -53,6 +66,7 @@ body {
   color: #fff;
 }
 
+<<<<<<< HEAD
 .sidebar {
   min-height: 100vh;
   width: 260px;
@@ -117,4 +131,24 @@ body {
     background: rgba(0, 0, 0, 0.5);
     z-index: 1040;
   }
+=======
+.text-logo-salon {
+  color: var(--color-logo-salon) !important;
+}
+
+.bg-circulo-perfil {
+  background-color: var(--color-circulo-perfil) !important;
+}
+
+.btn-nuevo-insumo {
+  background-color: var(--color-boton-nuevo);
+  border-color: var(--color-boton-nuevo);
+  color: #fff;
+}
+
+.btn-nuevo-insumo:hover {
+  background-color: var(--color-boton-nuevo-hover);
+  border-color: var(--color-boton-nuevo-hover);
+  color: #fff;
+>>>>>>> 56c8acadeeaed21fba6a51dd9e109d2c25545bbf
 }

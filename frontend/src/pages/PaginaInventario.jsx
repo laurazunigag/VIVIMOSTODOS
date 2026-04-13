@@ -2,6 +2,13 @@ import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/ContextoAutenticacion';
 import { servicioInventario } from '../services/servicioApi';
 import ModalInventario from '../components/ModalInventario';
+<<<<<<< HEAD
+=======
+import ModalPrestar from '../components/ModalPrestar';
+import ModalPrestamosActivos from '../components/ModalPrestamosActivos';
+import { servicioPrestamos } from '../services/servicioPrestamos';
+import './PaginaInventario.css';
+>>>>>>> 56c8acadeeaed21fba6a51dd9e109d2c25545bbf
 
 export default function PaginaInventario() {
   const { esAdmin, esSupervisor } = useAuth();
@@ -13,6 +20,13 @@ export default function PaginaInventario() {
   const [modalAbierto, setModalAbierto] = useState(false);
   const [insumoEditar, setInsumoEditar] = useState(null);
   const [mensaje, setMensaje] = useState(null);
+<<<<<<< HEAD
+=======
+  
+  const [modalPrestarAbierto, setModalPrestarAbierto] = useState(false);
+  const [insumoPrestar, setInsumoPrestar] = useState(null);
+  const [modalPrestamosActivosAbierto, setModalPrestamosActivosAbierto] = useState(false);
+>>>>>>> 56c8acadeeaed21fba6a51dd9e109d2c25545bbf
 
   const cargarInsumos = useCallback(async () => {
     try {
@@ -68,6 +82,26 @@ export default function PaginaInventario() {
     }
   };
 
+<<<<<<< HEAD
+=======
+  const abrirModalPrestar = (insumo) => {
+    setInsumoPrestar(insumo);
+    setModalPrestarAbierto(true);
+  };
+
+  const guardarPrestamo = async (datos) => {
+    try {
+      await servicioPrestamos.crear(datos);
+      mostrarMensaje('success', 'Préstamo registrado exitosamente');
+      setModalPrestarAbierto(false);
+      setInsumoPrestar(null);
+      cargarInsumos();
+    } catch (error) {
+      mostrarMensaje('danger', error.response?.data?.mensaje || 'Error al registrar préstamo');
+    }
+  };
+
+>>>>>>> 56c8acadeeaed21fba6a51dd9e109d2c25545bbf
   const eliminarInsumo = async (insumo) => {
     if (!confirm(`¿Está seguro de eliminar "${insumo.nombre_insumo}"?`)) return;
     try {
@@ -111,12 +145,35 @@ export default function PaginaInventario() {
           <h4 className="fw-bold mb-1">Inventario del Salón</h4>
           <p className="text-muted small mb-0">Control de insumos y artículos disponibles</p>
         </div>
+<<<<<<< HEAD
         {puedeEditar && (
           <button className="btn btn-verde d-flex align-items-center gap-2" onClick={abrirModalCrear}>
             <i className="bi bi-plus-lg"></i>
             Nuevo Insumo
           </button>
         )}
+=======
+        <div className="d-flex flex-wrap gap-2">
+          {!puedeEditar && (
+            <button className="btn btn-outline-primary d-flex align-items-center gap-2" onClick={() => setModalPrestamosActivosAbierto(true)}>
+              <i className="bi bi-card-checklist"></i>
+              Mis Préstamos
+            </button>
+          )}
+          {puedeEditar && (
+            <>
+              <button className="btn btn-outline-primary d-flex align-items-center gap-2" onClick={() => setModalPrestamosActivosAbierto(true)}>
+                <i className="bi bi-card-checklist"></i>
+                Préstamos Activos
+              </button>
+              <button className="btn btn-nuevo-insumo d-flex align-items-center gap-2" onClick={abrirModalCrear}>
+                <i className="bi bi-plus-lg"></i>
+                Nuevo Insumo
+              </button>
+            </>
+          )}
+        </div>
+>>>>>>> 56c8acadeeaed21fba6a51dd9e109d2c25545bbf
       </div>
 
       {/* Búsqueda */}
@@ -145,20 +202,32 @@ export default function PaginaInventario() {
                 <th className="small fw-semibold text-muted text-center">Total</th>
                 <th className="small fw-semibold text-muted text-center">Disponible</th>
                 <th className="small fw-semibold text-muted d-none d-sm-table-cell">Disponibilidad</th>
+<<<<<<< HEAD
                 {puedeEditar && <th className="small fw-semibold text-muted text-end">Acciones</th>}
+=======
+                <th className="small fw-semibold text-muted text-end">Acciones</th>
+>>>>>>> 56c8acadeeaed21fba6a51dd9e109d2c25545bbf
               </tr>
             </thead>
             <tbody>
               {cargando ? (
                 <tr>
+<<<<<<< HEAD
                   <td colSpan={puedeEditar ? 5 : 4} className="text-center py-4 text-muted">
+=======
+                  <td colSpan={5} className="text-center py-4 text-muted">
+>>>>>>> 56c8acadeeaed21fba6a51dd9e109d2c25545bbf
                     <div className="spinner-border spinner-border-sm me-2"></div>
                     Cargando inventario...
                   </td>
                 </tr>
               ) : insumosFiltrados.length === 0 ? (
                 <tr>
+<<<<<<< HEAD
                   <td colSpan={puedeEditar ? 5 : 4} className="text-center py-4 text-muted">
+=======
+                  <td colSpan={5} className="text-center py-4 text-muted">
+>>>>>>> 56c8acadeeaed21fba6a51dd9e109d2c25545bbf
                     <i className="bi bi-box-seam fs-3 d-block mb-2 text-secondary opacity-50"></i>
                     No se encontraron insumos
                   </td>
@@ -184,6 +253,7 @@ export default function PaginaInventario() {
                           <span className="small text-muted" style={{ minWidth: 35 }}>{porcentaje}%</span>
                         </div>
                       </td>
+<<<<<<< HEAD
                       {puedeEditar && (
                         <td className="text-end">
                           <button
@@ -204,6 +274,38 @@ export default function PaginaInventario() {
                           )}
                         </td>
                       )}
+=======
+                      <td className="text-end">
+                        <button
+                          className="btn btn-sm btn-outline-success me-1"
+                          onClick={() => abrirModalPrestar(insumo)}
+                          title="Prestar"
+                          disabled={insumo.cantidad_disponible === 0}
+                        >
+                          <i className="bi bi-box-arrow-right"></i>
+                        </button>
+                        {puedeEditar && (
+                          <>
+                            <button
+                              className="btn btn-sm btn-outline-primary me-1"
+                              onClick={() => abrirModalEditar(insumo)}
+                              title="Editar"
+                            >
+                              <i className="bi bi-pencil"></i>
+                            </button>
+                            {esAdmin && (
+                              <button
+                                className="btn btn-sm btn-outline-danger"
+                                onClick={() => eliminarInsumo(insumo)}
+                                title="Eliminar"
+                              >
+                                <i className="bi bi-trash"></i>
+                              </button>
+                            )}
+                          </>
+                        )}
+                      </td>
+>>>>>>> 56c8acadeeaed21fba6a51dd9e109d2c25545bbf
                     </tr>
                   );
                 })
@@ -221,6 +323,27 @@ export default function PaginaInventario() {
           onCerrar={cerrarModal}
         />
       )}
+<<<<<<< HEAD
+=======
+
+      {modalPrestarAbierto && insumoPrestar && (
+        <ModalPrestar
+          insumo={insumoPrestar}
+          onGuardar={guardarPrestamo}
+          onCerrar={() => {
+            setModalPrestarAbierto(false);
+            setInsumoPrestar(null);
+          }}
+        />
+      )}
+
+      {modalPrestamosActivosAbierto && (
+        <ModalPrestamosActivos
+          onCerrar={() => setModalPrestamosActivosAbierto(false)}
+          recargarInventario={cargarInsumos}
+        />
+      )}
+>>>>>>> 56c8acadeeaed21fba6a51dd9e109d2c25545bbf
     </div>
   );
 }
