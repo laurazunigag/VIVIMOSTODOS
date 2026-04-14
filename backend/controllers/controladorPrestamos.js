@@ -1,4 +1,5 @@
 const ModeloPrestamo = require('../models/modeloPrestamo');
+const ModeloReserva = require('../models/modeloReserva');
 
 const controladorPrestamos = {
   obtenerTodos: async (req, res) => {
@@ -24,18 +25,44 @@ const controladorPrestamos = {
 
   crear: async (req, res) => {
     try {
-      const { id_inventario, cantidad, fecha_devolucion_esperada } = req.body;
+      const { id_inventario, cantidad, fecha_devolucion_esperada, fecha_uso } = req.body;
       
       let id_apartamento = req.body.id_apartamento;
       if (req.usuario.rol === 'residente') {
         id_apartamento = req.usuario.idApartamento;
       }
       
-      if (!id_apartamento || !id_inventario || !cantidad) {
-        return res.status(400).json({ exito: false, mensaje: 'Faltan campos requeridos' });
+      if (!id_apartamento || !id_inventario || !cantidad || !fecha_uso) {
+        return res.status(400).json({ exito: false, mensaje: 'Faltan campos requeridos, incluyendo la fecha de reserva (fecha_uso).' });
+      }
+
+      // Validar que el apartamento tenga una reserva activa para la fecha indicada
+      if (req.usuario.rol === 'residente') {
+        const tieneReserva = await ModeloReserva.tieneReservaActiva(id_apartamento, fecha_uso);
+        if (!tieneReserva) {
+          return res.status(403).json({ 
+            exito: false, 
+            mensaje: 'No tienes una reserva activa para la fecha seleccionada. Por favor agenda el salón primero.' 
+          });
+        }
       }
 
       const fechaEsperada = fecha_devolucion_esperada ? new Date(fecha_devolucion_esperada) : null;
+
+      // Validar la restricción máxima de 3 días desde la fecha de uso (reserva)
+      if (fechaEsperada) {
+        const limiteMaximoStr = `${fecha_uso}T23:59:59`;
+        const limiteMaximo = new Date(limiteMaximoStr);
+        limiteMaximo.setDate(limiteMaximo.getDate() + 3);
+
+        if (fechaEsperada > limiteMaximo) {
+          return res.status(400).json({ 
+
+            exito: false, 
+            mensaje: 'La devolución máxima permitida es de 3 días exactos posteriores a la reserva.' 
+          });
+        }
+      }
       
       const resultado = await ModeloPrestamo.crear({
         idApartamento: id_apartamento,

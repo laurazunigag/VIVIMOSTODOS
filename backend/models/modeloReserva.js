@@ -1,0 +1,75 @@
+const { poolConexion } = require('../config/baseDatos');
+
+class ModeloReserva {
+  // Obtener todas las reservas de un mes y año específicos (para el calendario)
+  static async obtenerPorMes(year, month) {
+    // month is 1-12
+    const fechaInicio = `${year}-${month.toString().padStart(2, '0')}-01`;
+    // Calculamos el próximo mes para el límite superior
+    const nextMonth = month === 12 ? 1 : month + 1;
+    const nextYear = month === 12 ? year + 1 : year;
+    const fechaFin = `${nextYear}-${nextMonth.toString().padStart(2, '0')}-01`;
+
+    const [filas] = await poolConexion.query(`
+      SELECT r.id_reserva, r.fecha_reserva, r.estado, u.nombre_titular, u.id_apartamento
+      FROM reservas r
+      JOIN usuarios u ON r.id_apartamento = u.id_apartamento
+      WHERE r.fecha_reserva >= ? AND r.fecha_reserva < ?
+      ORDER BY r.fecha_reserva ASC
+    `, [fechaInicio, fechaFin]);
+    return filas;
+  }
+
+  static async obtenerTodas() {
+    const [filas] = await poolConexion.query(`
+      SELECT r.id_reserva, r.fecha_reserva, r.estado, r.fecha_creacion, u.nombre_titular, u.id_apartamento
+      FROM reservas r
+      JOIN usuarios u ON r.id_apartamento = u.id_apartamento
+      ORDER BY r.fecha_reserva DESC
+    `);
+    return filas;
+  }
+
+  static async obtenerPorUsuario(idApartamento) {
+    const [filas] = await poolConexion.query(`
+      SELECT * FROM reservas
+      WHERE id_apartamento = ?
+      ORDER BY fecha_reserva DESC
+    `, [idApartamento]);
+    return filas;
+  }
+  
+  static async tieneReservaActiva(idApartamento, fecha) {
+    const [filas] = await poolConexion.query(`
+      SELECT id_reserva FROM reservas
+      WHERE id_apartamento = ? AND fecha_reserva = ? AND estado = 'activa'
+    `, [idApartamento, fecha]);
+    return filas.length > 0;
+  }
+
+  static async verificarDisponibilidad(fechaReserva) {
+    const [filas] = await poolConexion.query(
+      'SELECT id_reserva FROM reservas WHERE fecha_reserva = ? AND estado != "cancelada"', 
+      [fechaReserva]
+    );
+    return filas.length === 0;
+  }
+
+  static async crear({ idApartamento, fechaReserva }) {
+    const [resultado] = await poolConexion.query(
+      'INSERT INTO reservas (id_apartamento, fecha_reserva, estado) VALUES (?, ?, "activa")',
+      [idApartamento, fechaReserva]
+    );
+    return resultado;
+  }
+
+  static async cancelar(idReserva) {
+    const [resultado] = await poolConexion.query(
+      'UPDATE reservas SET estado = "cancelada" WHERE id_reserva = ?',
+      [idReserva]
+    );
+    return resultado;
+  }
+}
+
+module.exports = ModeloReserva;

@@ -10,6 +10,7 @@ export default function ModalPrestar({ insumo, onGuardar, onCerrar }) {
   const [datosFormulario, setDatosFormulario] = useState({
     id_apartamento: puedeEditar ? '' : usuario?.id_apartamento,
     cantidad: 1,
+    fecha_uso: '',
     fecha_devolucion_esperada: ''
   });
 
@@ -40,6 +41,7 @@ export default function ModalPrestar({ insumo, onGuardar, onCerrar }) {
       id_apartamento: parseInt(datosFormulario.id_apartamento),
       id_inventario: insumo.id_inventario,
       cantidad: parseInt(datosFormulario.cantidad),
+      fecha_uso: datosFormulario.fecha_uso,
       fecha_devolucion_esperada: datosFormulario.fecha_devolucion_esperada || null
     });
   };
@@ -101,6 +103,21 @@ export default function ModalPrestar({ insumo, onGuardar, onCerrar }) {
                 </div>
 
                 <div className="mb-3">
+                  <label className="form-label small fw-semibold text-muted">Fecha del Evento/Reserva</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    name="fecha_uso"
+                    value={datosFormulario.fecha_uso}
+                    onChange={handleChange}
+                    required
+                  />
+                  <div className="form-text" style={{ fontSize: '0.75rem' }}>
+                    Esta fecha debe coincidir con tu fecha reservada del salón.
+                  </div>
+                </div>
+
+                <div className="mb-3">
                   <label className="form-label small fw-semibold text-muted">Fecha límite de devolución</label>
                   <input
                     type="datetime-local"
@@ -108,8 +125,14 @@ export default function ModalPrestar({ insumo, onGuardar, onCerrar }) {
                     name="fecha_devolucion_esperada"
                     value={datosFormulario.fecha_devolucion_esperada}
                     onChange={handleChange}
+                    min={datosFormulario.fecha_uso ? `${datosFormulario.fecha_uso}T00:00` : undefined}
+                    max={datosFormulario.fecha_uso ? `${new Date(new Date(datosFormulario.fecha_uso).getTime() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}T23:59` : undefined}
                     required
+                    disabled={!datosFormulario.fecha_uso}
                   />
+                  <div className="form-text" style={{ fontSize: '0.75rem' }}>
+                    * Máximo 3 días posterior a la reserva.
+                  </div>
                 </div>
               </div>
               

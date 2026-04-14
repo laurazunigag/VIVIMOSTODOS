@@ -7,7 +7,7 @@ import PaginaInventario from './pages/PaginaInventario';
 import PaginaReservas from './pages/PaginaReservas';
 import LayoutPrincipal from './components/LayoutPrincipal';
 
-function RutaProtegida({ children, soloAdmin = false }) {
+function RutaProtegida({ children, soloAdmin = false, sinAdmins = false }) {
   const { usuario, cargando, esAdmin } = useAuth();
 
   if (cargando) {
@@ -22,6 +22,7 @@ function RutaProtegida({ children, soloAdmin = false }) {
 
   if (!usuario) return <Navigate to="/login" replace />;
   if (soloAdmin && !esAdmin) return <Navigate to="/dashboard" replace />;
+  if (sinAdmins && esAdmin) return <Navigate to="/dashboard" replace />;
 
   return <LayoutPrincipal>{children}</LayoutPrincipal>;
 }
@@ -45,7 +46,7 @@ export default function App() {
       <Route path="/dashboard" element={<RutaProtegida><PaginaDashboard /></RutaProtegida>} />
       <Route path="/usuarios" element={<RutaProtegida soloAdmin><PaginaUsuarios /></RutaProtegida>} />
       <Route path="/inventario" element={<RutaProtegida><PaginaInventario /></RutaProtegida>} />
-      <Route path="/reservas" element={<RutaProtegida><PaginaReservas /></RutaProtegida>} />
+      <Route path="/reservas" element={<RutaProtegida sinAdmins><PaginaReservas /></RutaProtegida>} />
       <Route path="/" element={<Navigate to={usuario ? '/dashboard' : '/login'} replace />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

@@ -83,6 +83,7 @@ export default function ModalPrestamosActivos({ onCerrar, recargarInventario }) 
                       {puedeEditar && <th className="small fw-semibold text-muted px-3">Usuario</th>}
                       <th className="small fw-semibold text-muted px-3">Insumo</th>
                       <th className="small fw-semibold text-muted text-center">Cant.</th>
+                      <th className="small fw-semibold text-muted text-center" title="Fecha para usar">Para Evento</th>
                       <th className="small fw-semibold text-muted">Límite</th>
                       <th className="small fw-semibold text-muted text-end px-3">Acción</th>
                     </tr>
@@ -115,6 +116,7 @@ export default function ModalPrestamosActivos({ onCerrar, recargarInventario }) 
                             )}
                             <td className="align-middle fw-medium px-3">{p.nombre_insumo}</td>
                             <td className="align-middle text-center">{p.cantidad}</td>
+                            <td className="align-middle text-center small text-primary fw-medium">{p.fecha_uso ? p.fecha_uso.split('T')[0] : 'N/A'}</td>
                             <td className="align-middle">
                               <span className={`small ${vencido ? 'text-danger fw-bold' : 'text-muted'}`}>
                                 {formatearFecha(p.fecha_devolucion_esperada)}
