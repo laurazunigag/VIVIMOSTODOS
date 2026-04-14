@@ -48,8 +48,8 @@ const ModeloPrestamo = {
 
       // Crear préstamo
       const [resultado] = await conexion.query(
-        'INSERT INTO prestamos_insumos (id_apartamento, id_inventario, cantidad, fecha_devolucion_esperada, estado) VALUES (?, ?, ?, ?, "activo")',
-        [idApartamento, idInventario, cantidad, fechaDevolucionEsperada]
+        'INSERT INTO prestamos_insumos (id_apartamento, id_inventario, cantidad, fecha_devolucion_esperada, fecha_uso, estado) VALUES (?, ?, ?, ?, ?, "activo")',
+        [idApartamento, idInventario, cantidad, fechaDevolucionEsperada, datosPrestamo.fechaUso]
       );
 
       await conexion.commit();

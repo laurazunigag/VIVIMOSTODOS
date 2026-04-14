@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/ContextoAutenticacion';
 import { servicioInventario } from '../services/servicioApi';
 import ModalInventario from '../components/ModalInventario';
@@ -123,9 +124,14 @@ export default function PaginaInventario() {
     <div>
       {/* Mensaje */}
       {mensaje && (
-        <div className={`alert alert-${mensaje.tipo} alert-dismissible fade show d-flex align-items-center gap-2 small`} role="alert">
-          <i className={`bi ${mensaje.tipo === 'success' ? 'bi-check-circle' : 'bi-exclamation-circle'}`}></i>
-          {mensaje.texto}
+        <div className={`alert alert-${mensaje.tipo} alert-dismissible fade show d-flex align-items-center justify-content-between small`} role="alert">
+          <div className="d-flex align-items-center gap-2">
+             <i className={`bi ${mensaje.tipo === 'success' ? 'bi-check-circle' : 'bi-exclamation-circle'}`}></i>
+             {mensaje.texto}
+             {mensaje.texto.includes('reservación') && (
+               <Link to="/reservas" className="btn btn-sm btn-danger px-2 py-0 ms-2" onClick={() => setMensaje(null)}>Agendar ahora</Link>
+             )}
+          </div>
           <button type="button" className="btn-close" onClick={() => setMensaje(null)}></button>
         </div>
       )}

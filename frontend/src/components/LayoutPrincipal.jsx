@@ -12,7 +12,7 @@ export default function LayoutPrincipal({ children }) {
     { ruta: '/dashboard', etiqueta: 'Panel Principal', icono: 'bi-speedometer2' },
     ...(esAdmin ? [{ ruta: '/usuarios', etiqueta: 'Usuarios', icono: 'bi-people' }] : []),
     { ruta: '/inventario', etiqueta: 'Inventario', icono: 'bi-box-seam' },
-    { ruta: '/reservas', etiqueta: 'Reservas', icono: 'bi-calendar-event' },
+    ...(!esAdmin ? [{ ruta: '/reservas', etiqueta: 'Reservas', icono: 'bi-calendar-event' }] : []),
   ];
 
   const esRutaActiva = (ruta) => ubicacion.pathname === ruta;

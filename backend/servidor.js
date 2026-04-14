@@ -10,6 +10,7 @@ const rutasAutenticacion = require('./routes/rutasAutenticacion');
 const rutasUsuarios = require('./routes/rutasUsuarios');
 const rutasInventario = require('./routes/rutasInventario');
 const rutasPrestamos = require('./routes/rutasPrestamos');
+const rutasReservas = require('./routes/rutasReservas');
 
 const app = express();
 const PUERTO = process.env.PORT || 5000;
@@ -24,6 +25,7 @@ app.use('/api/auth', rutasAutenticacion);
 app.use('/api/usuarios', rutasUsuarios);
 app.use('/api/inventario', rutasInventario);
 app.use('/api/prestamos', rutasPrestamos);
+app.use('/api/reservas', rutasReservas);
 
 // Ruta de verificación
 app.get('/api/salud', (req, res) => {

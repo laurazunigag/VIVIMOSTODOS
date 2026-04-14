@@ -10,7 +10,7 @@ enrutador.use(verificarToken);
 enrutador.get('/estadisticas', ControladorUsuarios.obtenerEstadisticas);
 
 // GET /api/usuarios
-enrutador.get('/', verificarRol('administrador'), ControladorUsuarios.obtenerTodos);
+enrutador.get('/', verificarRol('administrador', 'supervisor'), ControladorUsuarios.obtenerTodos);
 
 // GET /api/usuarios/:idApartamento
 enrutador.get('/:idApartamento', verificarRol('administrador'), ControladorUsuarios.obtenerPorId);
