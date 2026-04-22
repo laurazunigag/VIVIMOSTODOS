@@ -68,7 +68,8 @@ const controladorPrestamos = {
         idApartamento: id_apartamento,
         idInventario: id_inventario,
         cantidad,
-        fechaDevolucionEsperada: fechaEsperada
+        fechaDevolucionEsperada: fechaEsperada,
+        fechaUso: fecha_uso
       });
 
       res.status(201).json({ 
