@@ -46,7 +46,7 @@ export default function App() {
       <Route path="/dashboard" element={<RutaProtegida><PaginaDashboard /></RutaProtegida>} />
       <Route path="/usuarios" element={<RutaProtegida soloAdmin><PaginaUsuarios /></RutaProtegida>} />
       <Route path="/inventario" element={<RutaProtegida><PaginaInventario /></RutaProtegida>} />
-      <Route path="/reservas" element={<RutaProtegida sinAdmins><PaginaReservas /></RutaProtegida>} />
+      <Route path="/reservas" element={<RutaProtegida><PaginaReservas /></RutaProtegida>} />
       <Route path="/" element={<Navigate to={usuario ? '/dashboard' : '/login'} replace />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

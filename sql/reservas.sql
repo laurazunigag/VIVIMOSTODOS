@@ -28,7 +28,8 @@ CREATE TABLE `reservas` (
     `id_reserva` int(11) NOT NULL,
     `id_apartamento` int(11) NOT NULL,
     `fecha_reserva` date NOT NULL,
-    `estado` enum('activa', 'cancelada', 'completada') DEFAULT 'activa',
+    `estado` enum('pendiente', 'activa', 'cancelada', 'completada', 'rechazada') DEFAULT 'pendiente',
+    `motivo_rechazo` varchar(255) DEFAULT NULL,
     `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 --

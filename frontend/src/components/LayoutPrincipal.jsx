@@ -1,18 +1,36 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/ContextoAutenticacion';
+import { servicioReservas } from '../services/servicioReservas';
 import './LayoutPrincipal.css';
 
 export default function LayoutPrincipal({ children }) {
-  const { usuario, cerrarSesion, esAdmin } = useAuth();
+  const { usuario, cerrarSesion, esAdmin, esSupervisor } = useAuth();
   const ubicacion = useLocation();
   const [menuAbierto, setMenuAbierto] = useState(false);
+  const [pendientes, setPendientes] = useState(0);
+
+  const puedeGestionar = esAdmin || esSupervisor;
+
+  // Cargar contador de reservas pendientes para admin/supervisor
+  useEffect(() => {
+    if (!puedeGestionar) return;
+    const cargar = async () => {
+      try {
+        const res = await servicioReservas.contarPendientes();
+        setPendientes(res.data.datos.total || 0);
+      } catch { /* silencioso */ }
+    };
+    cargar();
+    const intervalo = setInterval(cargar, 30000); // Actualizar cada 30s
+    return () => clearInterval(intervalo);
+  }, [puedeGestionar]);
 
   const elementosMenu = [
     { ruta: '/dashboard', etiqueta: 'Panel Principal', icono: 'bi-speedometer2' },
     ...(esAdmin ? [{ ruta: '/usuarios', etiqueta: 'Usuarios', icono: 'bi-people' }] : []),
     { ruta: '/inventario', etiqueta: 'Inventario', icono: 'bi-box-seam' },
-    ...(!esAdmin ? [{ ruta: '/reservas', etiqueta: 'Reservas', icono: 'bi-calendar-event' }] : []),
+    { ruta: '/reservas', etiqueta: 'Reservas', icono: 'bi-calendar-event', badge: puedeGestionar ? pendientes : 0 },
   ];
 
   const esRutaActiva = (ruta) => ubicacion.pathname === ruta;
@@ -55,6 +73,11 @@ export default function LayoutPrincipal({ children }) {
                 >
                   <i className={`bi ${item.icono}`}></i>
                   {item.etiqueta}
+                  {item.badge > 0 && (
+                    <span className="badge bg-warning text-dark rounded-pill ms-auto" style={{fontSize: 10}}>
+                      {item.badge}
+                    </span>
+                  )}
                 </Link>
               </li>
             ))}
